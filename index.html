@@ -181,6 +181,198 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'In
 .bfi{font-size:.95rem;flex-shrink:0;}
 .bft{font-size:clamp(.55rem,.85vw,.66rem);color:#64748b;line-height:1.35;}
 .bft b{color:#f1f5f9;display:block;}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE OVERHAUL — Mobile · Tablet · Desktop · Touch
+   Breakpoints: 480px (phone) | 768px (tablet) | 1024px (laptop)
+═══════════════════════════════════════════════════════════════ */
+
+/* ── BASE RESETS ── */
+html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+body { overflow-x:hidden; -webkit-tap-highlight-color:transparent; }
+* { -webkit-font-smoothing:antialiased; }
+img { max-width:100%; display:block; }
+button { touch-action:manipulation; }
+
+/* ── NAV — bigger touch targets on mobile ── */
+@media (max-width:768px){
+  #nav { gap:8px; padding:8px 14px; bottom:14px; max-width:calc(100vw - 28px); }
+  .nbtn { width:38px; height:38px; font-size:16px; }
+  #dots .dot { width:6px; height:6px; }
+  #ctr { font-size:.6rem; min-width:36px; }
+  #fsBtn, #helpBtn { padding:5px 8px; font-size:.7rem; }
+  #applyBtn { bottom:64px; right:14px; font-size:.78rem; padding:8px 14px; }
+}
+@media (max-width:480px){
+  #nav { gap:5px; padding:7px 10px; bottom:10px; }
+  #dots { display:none; }
+  #applyBtn { bottom:58px; right:10px; font-size:.72rem; padding:7px 12px; }
+}
+
+/* ── MODALS — full screen on mobile ── */
+@media (max-width:768px){
+  #roleModal > div, #roleModalInner, #kbHelp > div { 
+    width:95vw; max-width:95vw; max-height:90vh; overflow-y:auto; border-radius:12px;
+  }
+  #kbHelp > div { padding:20px 16px; }
+}
+
+/* ── SLIDE 1 — stack on mobile ── */
+@media (max-width:1024px){
+  .car { width:45%; opacity:.6; }
+  .icards { right:clamp(.5rem,1.5vw,2rem); gap:7px; }
+  .ic { min-width:clamp(130px,18vw,200px); padding:6px 10px; }
+}
+@media (max-width:768px){
+  .s1-left { width:100%; padding:0 1.2rem 5rem 1.2rem; justify-content:flex-end; }
+  .tf, .ts { font-size:clamp(2.8rem,12vw,4.5rem); }
+  .tt { font-size:clamp(1.1rem,4.5vw,1.8rem); }
+  .car { width:70%; right:-5%; bottom:8%; opacity:.25; }
+  .icards { display:none; }
+  .sg { gap:4px; }
+  .stag { font-size:.5rem; padding:3px 7px; }
+  .tline { font-size:.68rem; }
+  #cdBox { gap:7px; padding:7px 12px; }
+}
+@media (max-width:480px){
+  .tf, .ts { font-size:clamp(2.2rem,10vw,3.5rem); }
+  .tt { font-size:clamp(1rem,4vw,1.5rem); }
+  .car { opacity:.15; }
+  .tktrack { animation-duration:18s; }
+  .badge { font-size:.5rem; padding:4px 10px; }
+}
+
+/* ── SLIDE 2 — 3-col → 2-col → 1-col ── */
+@media (max-width:1024px){
+  .s2grid { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:600px){
+  .s2grid { grid-template-columns:1fr; gap:8px; padding:0.5rem 1rem; }
+  .s2h { padding:0.8rem 1rem 0; }
+  .s2stats { flex-wrap:wrap; padding:0.3rem 1rem; gap:6px; }
+  .sbox { flex:0 0 calc(50% - 3px); }
+  .cstrip { flex-wrap:wrap; }
+  .cp { flex:0 0 50%; border-right:none; border-bottom:1px solid rgba(255,255,255,.05); }
+}
+
+/* ── SLIDES 3 & 4 — responsive event layout ── */
+@media (max-width:900px){
+  .ev-body { grid-template-columns:1fr; overflow-y:auto; }
+  .ev-left { max-height:35vh; }
+  .venue-card { height:160px; flex:none; }
+  .chips { flex-wrap:wrap; }
+  .chip { min-width:70px; }
+}
+@media (max-width:600px){
+  .tb-stats { flex-wrap:wrap; gap:8px; padding:0 .8rem; }
+  .top-band { flex-direction:column; }
+  .tb-main { padding:.7rem 1rem; }
+  .ev-body { padding:.4rem 1rem; gap:8px; }
+}
+
+/* ── SLIDE 5 — competition card grid ── */
+@media (max-width:900px){
+  /* The competition grid needs to wrap */
+  .wcard-grid, [id="s5"] .wcard-wrap { flex-wrap:wrap !important; }
+}
+
+/* ── SLIDE 7 — 3-col → 1-col ── */
+@media (max-width:1024px){
+  #s7 .s7-body { flex-direction:column !important; overflow-y:auto; }
+  #s7 .s7-col { max-width:100% !important; width:100% !important; flex:none !important; }
+  #s7 { overflow-y:auto !important; }
+}
+
+/* ── SLIDE 8 — week strip wrap ── */
+@media (max-width:900px){
+  #s8 [style*="grid-template-columns:1fr 1fr 1fr"] { 
+    grid-template-columns:1fr !important; 
+  }
+  #s8 [style*="display:flex;gap:5px"] { flex-wrap:wrap !important; }
+  #s8 [data-week-idx] { flex:0 0 calc(25% - 4px) !important; min-width:60px; }
+}
+@media (max-width:600px){
+  #s8 [data-week-idx] { flex:0 0 calc(33% - 4px) !important; }
+}
+
+/* ── SLIDE 9 — hierarchy tiers stack ── */
+@media (max-width:1100px){
+  #s9 .st-eng, #s9 .st-biz { max-width:110px !important; }
+}
+@media (max-width:900px){
+  /* Tier 3 sub-teams wrap */
+  #s9 [style*="display:flex;gap:clamp(5px"] { flex-wrap:wrap !important; justify-content:center !important; }
+  #s9 .hnode.st-eng, #s9 .hnode.st-biz { flex:0 0 calc(30% - 8px) !important; max-width:none !important; }
+  #s9 [style*="width:2px;background:linear-gradient"] { display:none !important; }
+}
+@media (max-width:600px){
+  #s9 [style*="top:clamp(65px"] { top:60px !important; bottom:38px !important; }
+  #s9 .hnode.st-eng, #s9 .hnode.st-biz { flex:0 0 calc(45% - 6px) !important; }
+  /* Cross-functional strip wraps */
+  #s9 [style*="flex:1;max-width:620px"] { padding:6px !important; }
+  #s9 .hnode[onclick*="showRole('safety'"],
+  #s9 .hnode[onclick*="showRole('driver'"],
+  #s9 .hnode[onclick*="showRole('integration'"] { flex:0 0 100% !important; }
+}
+
+/* ── SLIDE 10 — QR + benefits stack on mobile ── */
+@media (max-width:768px){
+  #s10 [style*="display:flex;align-items:center;gap:clamp(28px"] {
+    flex-direction:column !important; gap:20px !important;
+  }
+  #s10 [style*="width:1px;height:150px"] { display:none !important; }
+  #s10 [style*="max-width:300px"] { max-width:100% !important; }
+  #s10 [style*="font-size:clamp(2.5rem"] { font-size:clamp(1.8rem,8vw,3rem) !important; }
+}
+@media (max-width:480px){
+  #s10 { overflow-y:auto !important; }
+  #s10 > div > div { padding:.6rem .8rem; gap:12px; }
+  #s10 #s10qr img, #s10 #s10qr canvas { width:130px !important; height:130px !important; }
+}
+
+/* ── LANDSCAPE PHONE — short screens ── */
+@media (max-height:500px) and (orientation:landscape){
+  #nav { bottom:8px; padding:6px 12px; gap:6px; }
+  .nbtn { width:32px; height:32px; }
+  #applyBtn { bottom:52px; }
+  #splash { gap:10px; }
+  #splash > div:first-child { width:55px; height:55px; }
+  #splash > div:nth-child(2) > div:first-child { font-size:1.6rem; }
+  .slide { overflow-y:auto; }
+}
+
+/* ── TABLET LANDSCAPE — 1024px ── */
+@media (min-width:769px) and (max-width:1024px){
+  .tf, .ts { font-size:clamp(3rem,7vw,5.5rem); }
+  .s2grid { grid-template-columns:1fr 1fr; }
+  .ev-body { grid-template-columns:1fr; }
+}
+
+/* ── LARGE SCREENS ── */
+@media (min-width:1600px){
+  #nav { bottom:28px; gap:18px; padding:11px 26px; }
+  .nbtn { width:34px; height:34px; font-size:19px; }
+}
+
+/* ── TOUCH SCROLL for individual slides on small screens ── */
+@media (max-width:768px){
+  #s2, #s3, #s4, #s5, #s7, #s8, #s9 { overflow-y:auto !important; }
+  #s2::-webkit-scrollbar, #s3::-webkit-scrollbar,
+  #s4::-webkit-scrollbar, #s5::-webkit-scrollbar,
+  #s7::-webkit-scrollbar, #s8::-webkit-scrollbar,
+  #s9::-webkit-scrollbar { width:3px; }
+  #s2::-webkit-scrollbar-thumb, #s3::-webkit-scrollbar-thumb,
+  #s4::-webkit-scrollbar-thumb, #s5::-webkit-scrollbar-thumb,
+  #s7::-webkit-scrollbar-thumb, #s8::-webkit-scrollbar-thumb,
+  #s9::-webkit-scrollbar-thumb { background:rgba(255,107,0,.3); border-radius:2px; }
+}
+
+/* ── SAFE AREA (iPhone notch/home bar) ── */
+@supports (padding-bottom: env(safe-area-inset-bottom)){
+  #nav { bottom:calc(14px + env(safe-area-inset-bottom)); }
+  #applyBtn { bottom:calc(60px + env(safe-area-inset-bottom)); }
+}
+
 </style>
   <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIklJUEUgRm9ybXVsYSBTdHVkZW50IiwgInNob3J0X25hbWUiOiAiSUlQRSBGUyIsICJkZXNjcmlwdGlvbiI6ICJJSVBFIEZvcm11bGEgU3R1ZGVudCBSZWNydWl0bWVudCIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogImZ1bGxzY3JlZW4iLCAib3JpZW50YXRpb24iOiAibGFuZHNjYXBlIiwgImJhY2tncm91bmRfY29sb3IiOiAiIzAzMDgxMCIsICJ0aGVtZV9jb2xvciI6ICIjRkY2QjAwIiwgImljb25zIjogW3sic3JjIjogImh0dHBzOi8vdmlhLnBsYWNlaG9sZGVyLmNvbS8xOTJ4MTkyL0ZGNkIwMC9mZmZmZmY/dGV4dD1GUyIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn0sIHsic3JjIjogImh0dHBzOi8vdmlhLnBsYWNlaG9sZGVyLmNvbS81MTJ4NTEyL0ZGNkIwMC9mZmZmZmY/dGV4dD1GUyIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn1dfQ==">
   <meta name="theme-color" content="#FF6B00">
@@ -2089,6 +2281,53 @@ window.launchConfetti=function(){
 (function(){
   var c=document.getElementById('s10cta');
   if(c) c.addEventListener('click',launchConfetti);
+})();
+
+
+/* ═══ RESPONSIVE HELPERS ═══ */
+
+/* Close kbHelp + role modal on Escape — already in global, but also handle swipe-down */
+document.addEventListener('touchmove', function(e){
+  var rm = document.getElementById('roleModal');
+  var kb = document.getElementById('kbHelp');
+  if((rm && rm.style.display==='flex')||(kb && kb.style.display==='flex')){
+    e.stopPropagation();
+  }
+},{passive:true});
+
+/* Prevent swipe navigation when a modal is open */
+var origTouchEnd = document.getElementById('deck').ontouchend;
+document.getElementById('deck').addEventListener('touchend', function(e){
+  var rm = document.getElementById('roleModal');
+  var kb = document.getElementById('kbHelp');
+  if((rm && rm.style.display==='flex')||(kb && kb.style.display==='flex')) e.stopPropagation();
+},{passive:true});
+
+/* Resize: redraw S9 SVG connectors */
+window.addEventListener('resize', function(){
+  var s9 = document.getElementById('s9');
+  if(s9 && s9.classList.contains('active')){
+    setTimeout(function(){
+      var svg = document.getElementById('hsvg');
+      if(svg && typeof drawLines === 'function') drawLines();
+    }, 100);
+  }
+});
+
+/* On very small screens hide dot nav if too many dots overflow */
+(function(){
+  function checkDots(){
+    var dotsEl = document.getElementById('dots');
+    var nav    = document.getElementById('nav');
+    if(!dotsEl || !nav) return;
+    if(nav.scrollWidth > window.innerWidth - 20){
+      dotsEl.style.display = 'none';
+    } else {
+      dotsEl.style.display = 'flex';
+    }
+  }
+  checkDots();
+  window.addEventListener('resize', checkDots);
 })();
 
 </script>
