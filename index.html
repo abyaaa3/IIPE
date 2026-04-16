@@ -12,15 +12,35 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'In
 
 /* SLIDE BASE */
 .slide{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;
-  transition:opacity .5s ease,transform .5s ease;transform:translateX(50px);}
-.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
-.slide.prev{opacity:0;transform:translateX(-50px);}
+  transition:opacity .52s cubic-bezier(.4,0,.2,1),transform .52s cubic-bezier(.4,0,.2,1),filter .52s ease;
+  transform:translateX(55px) scale(.98);filter:blur(2px);}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0) scale(1);filter:blur(0);}
+.slide.prev{opacity:0;transform:translateX(-55px) scale(.98);filter:blur(2px);}
+/* Per-slide entry variants */
+#s1.active{animation:s1in .7s cubic-bezier(.16,1,.3,1) both;}
+@keyframes s1in{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:scale(1)}}
+#s5.active{animation:s5in .6s cubic-bezier(.16,1,.3,1) both;}
+@keyframes s5in{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+#s9.active{animation:s9in .65s cubic-bezier(.16,1,.3,1) both;}
+@keyframes s9in{from{opacity:0;transform:translateY(-24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+#s10.active{animation:s10in .7s cubic-bezier(.16,1,.3,1) both;}
+@keyframes s10in{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
 
 /* NAV */
 #nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
   display:flex;align-items:center;gap:14px;z-index:9999;
   background:rgba(5,8,16,.9);border:1px solid rgba(255,107,0,.25);
-  border-radius:50px;padding:9px 20px;backdrop-filter:blur(14px);}
+  border-radius:50px;padding:9px 20px;backdrop-filter:blur(14px);
+  opacity:0.08;
+  transition:opacity .4s ease, transform .4s ease;
+}
+#nav:hover, #nav.nav-active {
+  opacity:1 !important;
+}
+/* Slide counter specifically fades faster when idle */
+#ctr {
+  transition:opacity .35s ease;
+}
 .nbtn{background:none;border:none;cursor:pointer;color:#64748b;font-size:17px;
   width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .nbtn:hover{color:#FF6B00;background:rgba(255,107,0,.12);}
@@ -75,10 +95,10 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'In
 .ic-v{font-size:clamp(.72rem,1.2vw,.96rem);font-weight:700;color:#f1f5f9;}
 .ctabox{background:rgba(255,107,0,.1);border:1px solid rgba(255,107,0,.25);border-radius:10px;
   padding:clamp(7px,1.1vh,11px) clamp(11px,1.6vw,15px);font-size:clamp(.62rem,1vw,.78rem);color:#FFB347;font-style:italic;line-height:1.45;}
-.tkwrap{position:absolute;bottom:0;left:0;right:0;z-index:5;background:rgba(13,20,32,.9);border-top:1px solid rgba(255,107,0,.2);padding:7px 0;overflow:hidden;}
+.tkwrap{position:absolute;bottom:0;left:0;right:0;z-index:5;background:rgba(13,20,32,.95);border-top:2px solid rgba(255,107,0,.35);padding:11px 0;overflow:hidden;}
 .tktrack{display:flex;gap:55px;animation:tick 28s linear infinite;white-space:nowrap;}
 @keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-.ti{font-size:.63rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,180,80,.75);}
+.ti{font-size:clamp(.82rem,1.3vw,1.05rem);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,180,80,.9);}
 .td{color:#FF6B00;}
 
 /* ════════════════════════════════
@@ -114,7 +134,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'In
 .sbw{width:100%;height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:4px;}
 .sb{height:100%;border-radius:2px;background:linear-gradient(90deg,#FF6B00,#FFB347);width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
 .cstrip{display:flex;align-items:stretch;position:relative;z-index:3;border-top:1px solid rgba(255,255,255,.05);}
-.cp{flex:1;display:flex;align-items:center;gap:9px;padding:clamp(7px,1.2vh,12px) clamp(10px,1.8vw,18px);
+.cp{flex:1;display:flex;align-items:center;gap:9px;padding:clamp(12px,2vh,20px) clamp(14px,2.2vw,24px);
   border-right:1px solid rgba(255,255,255,.05);cursor:pointer;transition:background .2s;position:relative;overflow:hidden;}
 .cp:last-child{border-right:none;}
 .cp:hover{background:rgba(255,107,0,.06);}
@@ -526,11 +546,11 @@ button { touch-action:manipulation; }
         <p class="tb-sub">India's premier engineering design competition — where student teams race what they build.</p>
       </div>
       <div class="tb-stats" style="border-color:rgba(255,107,0,.15);">
-        <div class="ts-item"><div class="ts-v" style="color:#FF6B00;">57+</div><div class="ts-l">Teams</div></div>
+        <div class="ts-item"><div class="ts-v" style="color:#FF6B00;" data-count="57" data-suffix="+">57+</div><div class="ts-l">Teams</div></div>
         <div class="ts-div"></div>
-        <div class="ts-item"><div class="ts-v" style="color:#FF6B00;">9th</div><div class="ts-l">Edition 2025</div></div>
+        <div class="ts-item"><div class="ts-v" style="color:#FF6B00;" data-count="9" data-suffix="th">9th</div><div class="ts-l">Edition 2025</div></div>
         <div class="ts-div"></div>
-        <div class="ts-item"><div class="ts-v" style="color:#FF6B00;">6</div><div class="ts-l">Days</div></div>
+        <div class="ts-item"><div class="ts-v" style="color:#FF6B00;" data-count="6">6</div><div class="ts-l">Days</div></div>
         <div class="ts-div"></div>
         <div class="ts-item"><div class="ts-v" style="color:#FF6B00;">Jan</div><div class="ts-l">Annually</div></div>
       </div>
@@ -608,11 +628,11 @@ button { touch-action:manipulation; }
         <p class="tb-sub">Powered by Maruti Suzuki · Held at Buddh International Circuit — the former Formula 1 Indian Grand Prix venue.</p>
       </div>
       <div class="tb-stats" style="border-color:rgba(30,144,255,.15);">
-        <div class="ts-item"><div class="ts-v" style="color:#1E90FF;">61+</div><div class="ts-l">Teams</div></div>
+        <div class="ts-item"><div class="ts-v" style="color:#1E90FF;" data-count="61" data-suffix="+">61+</div><div class="ts-l">Teams</div></div>
         <div class="ts-div"></div>
-        <div class="ts-item"><div class="ts-v" style="color:#1E90FF;">12th</div><div class="ts-l">Edition 2025</div></div>
+        <div class="ts-item"><div class="ts-v" style="color:#1E90FF;" data-count="12" data-suffix="th">12th</div><div class="ts-l">Edition 2025</div></div>
         <div class="ts-div"></div>
-        <div class="ts-item"><div class="ts-v" style="color:#1E90FF;">1500+</div><div class="ts-l">Students</div></div>
+        <div class="ts-item"><div class="ts-v" style="color:#1E90FF;" data-count="1500" data-suffix="+">1500+</div><div class="ts-l">Students</div></div>
         <div class="ts-div"></div>
         <div class="ts-item"><div class="ts-v" style="color:#1E90FF;">Aug</div><div class="ts-l">Annually</div></div>
       </div>
@@ -1111,8 +1131,206 @@ button { touch-action:manipulation; }
 </div>
 
 
-<!-- ════ SLIDE 7 — HOW TO PREPARE ════ -->
-<div class="slide" id="s7" style="background:#040912;overflow:hidden;position:absolute;inset:0;">
+<div class="slide" id="s7" style="background:#03080f;overflow:hidden;position:absolute;inset:0;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(255,107,0,.10),transparent 55%);z-index:0;pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;"></div>
+  <div class="stripe stripe-orange"></div><div class="scanline"></div>
+
+  <!-- HEADER -->
+  <div style="position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,107,0,.18);background:rgba(3,8,15,.9);backdrop-filter:blur(12px);padding:clamp(.7rem,1.5vh,1.1rem) clamp(1.5rem,3vw,3.5rem);">
+    <div class="rvu" style="animation-delay:.04s">
+      <p style="font-size:.57rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#FF6B00;margin-bottom:2px;">12-Week Holiday Training · IIPE Formula Student</p>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3.5vw,2.7rem);color:#f1f5f9;line-height:1;">From <span style="color:#FF6B00;">Zero</span> to <span style="color:#00C896;">Competition Ready</span></div>
+    </div>
+    <div class="rvu" style="animation-delay:.08s;display:flex;gap:12px;align-items:center;">
+      <div style="text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#FF6B00;">12</div><div style="font-size:.5rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;">Weeks</div></div>
+      <div style="width:1px;height:32px;background:rgba(255,255,255,.07);"></div>
+      <div style="text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#1E90FF;">3</div><div style="font-size:.5rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;">Phases</div></div>
+      <div style="width:1px;height:32px;background:rgba(255,255,255,.07);"></div>
+      <div style="text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#00C896;">7</div><div style="font-size:.5rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;">Sub-Teams</div></div>
+      <div style="width:1px;height:32px;background:rgba(255,255,255,.07);"></div>
+      <div style="text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#D88AFF;">2+</div><div style="font-size:.5rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;">Sponsors</div></div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div style="position:absolute;top:clamp(70px,11vh,100px);left:0;right:0;bottom:clamp(42px,7vh,56px);z-index:5;display:flex;flex-direction:column;gap:9px;padding:clamp(.5rem,1vh,.9rem) clamp(1.5rem,3vw,3.5rem);">
+
+    <!-- PHASE TIMELINE BAR -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;flex-shrink:0;" class="rvu" style="animation-delay:.12s">
+      <!-- Phase 1 -->
+      <div style="background:linear-gradient(135deg,rgba(255,107,0,.14),rgba(255,107,0,.06));border:1px solid rgba(255,107,0,.35);border-radius:12px;padding:clamp(8px,1.3vh,14px) clamp(10px,1.8vw,16px);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6B00,#FFB347);"></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:#FF6B00;line-height:1;">Phase 1</div>
+          <div style="background:rgba(255,107,0,.2);border-radius:5px;padding:2px 8px;font-size:.52rem;font-weight:700;color:#FFB347;letter-spacing:.08em;text-transform:uppercase;">Weeks 1–4</div>
+        </div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,3vw,2.2rem);color:#f1f5f9;line-height:1;margin-bottom:6px;">LEARN 📚</div>
+        <div style="font-size:.58rem;color:#94a3b8;line-height:1.5;">No one touches CAD before understanding the rules, theory, and tools. Foundation weeks — the most important phase.</div>
+        <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px;">
+          <div style="font-size:.54rem;color:#FF6B00;">✓ Full software stack installed</div>
+          <div style="font-size:.54rem;color:#FF6B00;">✓ Rulebook read &amp; compliance mapped</div>
+          <div style="font-size:.54rem;color:#FF6B00;">✓ Concept Brief per subsystem</div>
+          <div style="font-size:.54rem;color:#FF6B00;">✓ Benchmarked top 3 global teams</div>
+        </div>
+      </div>
+      <!-- Phase 2 -->
+      <div style="background:linear-gradient(135deg,rgba(30,144,255,.12),rgba(30,144,255,.05));border:1px solid rgba(30,144,255,.3);border-radius:12px;padding:clamp(8px,1.3vh,14px) clamp(10px,1.8vw,16px);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1E90FF,#7EC8FF);"></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:#1E90FF;line-height:1;">Phase 2</div>
+          <div style="background:rgba(30,144,255,.18);border-radius:5px;padding:2px 8px;font-size:.52rem;font-weight:700;color:#7EC8FF;letter-spacing:.08em;text-transform:uppercase;">Weeks 5–8</div>
+        </div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,3vw,2.2rem);color:#f1f5f9;line-height:1;margin-bottom:6px;">DESIGN 🔧</div>
+        <div style="font-size:.58rem;color:#94a3b8;line-height:1.5;">Think before you make. Generate concepts, validate analytically, present PDR. No physical building yet — design on paper first.</div>
+        <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px;">
+          <div style="font-size:.54rem;color:#1E90FF;">✓ 2–3 design concepts per subsystem</div>
+          <div style="font-size:.54rem;color:#1E90FF;">✓ FEA + CFD simulations run</div>
+          <div style="font-size:.54rem;color:#1E90FF;">✓ Preliminary Design Review (PDR)</div>
+          <div style="font-size:.54rem;color:#1E90FF;">✓ Sponsor deck sent to 10+ companies</div>
+        </div>
+      </div>
+      <!-- Phase 3 -->
+      <div style="background:linear-gradient(135deg,rgba(0,200,150,.10),rgba(0,200,150,.04));border:1px solid rgba(0,200,150,.3);border-radius:12px;padding:clamp(8px,1.3vh,14px) clamp(10px,1.8vw,16px);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00C896,#5FFFD7);"></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:#00C896;line-height:1;">Phase 3</div>
+          <div style="background:rgba(0,200,150,.15);border-radius:5px;padding:2px 8px;font-size:.52rem;font-weight:700;color:#5FFFD7;letter-spacing:.08em;text-transform:uppercase;">Weeks 9–12</div>
+        </div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,3vw,2.2rem);color:#f1f5f9;line-height:1;margin-bottom:6px;">COMMIT 🏁</div>
+        <div style="font-size:.58rem;color:#94a3b8;line-height:1.5;">Design is approved. Build it in full CAD, validate every component, integrate subsystems, freeze the design. What is designed is what gets manufactured.</div>
+        <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px;">
+          <div style="font-size:.54rem;color:#00C896;">✓ Frozen design — zero placeholder geometry</div>
+          <div style="font-size:.54rem;color:#00C896;">✓ FEA convergence studies complete</div>
+          <div style="font-size:.54rem;color:#00C896;">✓ Design report draft submitted</div>
+          <div style="font-size:.54rem;color:#00C896;">✓ 2+ confirmed sponsors</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STREAK -->
+    <div id="s8streak" style="font-size:.62rem;color:#475569;font-style:italic;padding:0 clamp(1.5rem,3vw,3.5rem) 4px;transition:color .4s;">🏁 Start marking weeks complete below</div>
+
+    <!-- WEEK-BY-WEEK STRIP -->
+    <div style="background:rgba(8,14,24,.95);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:clamp(9px,1.4vh,13px) clamp(11px,1.8vw,16px);flex:1;" class="rvu" style="animation-delay:.2s">
+      <div style="font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FF6B00;margin-bottom:10px;">📅 Week-by-Week at a Glance</div>
+      <div style="display:flex;gap:5px;align-items:stretch;height:calc(100% - 28px);">
+        <!-- W1 -->
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);position:relative;overflow:hidden;cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(255,107,0,.14)'" onmouseleave="this.style.background='rgba(255,107,0,.07)'" data-week-idx="0" onclick="markWeekDone(0,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#FFB347;line-height:1;">W1<span class="wkb1" style="display:none;position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span></div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Team setup · Software install · FS intro</div>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(255,107,0,.14)'" onmouseleave="this.style.background='rgba(255,107,0,.07)'" data-week-idx="1" onclick="markWeekDone(1,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#FFB347;line-height:1;">W2</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Chassis + Suspension + CAD basics</div><span style="display:none;" id="wkb2" class="wkBadge" data-wk="1" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(255,107,0,.14)'" onmouseleave="this.style.background='rgba(255,107,0,.07)'" data-week-idx="2" onclick="markWeekDone(2,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#FFB347;line-height:1;">W3</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Powertrain + Aero + FEA/CFD intro</div><span style="display:none;" id="wkb3" class="wkBadge" data-wk="2" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(255,107,0,.14)'" onmouseleave="this.style.background='rgba(255,107,0,.07)'" data-week-idx="3" onclick="markWeekDone(3,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#FFB347;line-height:1;">W4</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Rulebook deep-dive · Benchmarking</div><span style="display:none;" id="wkb4" class="wkBadge" data-wk="3" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <!-- divider -->
+        <div style="width:2px;background:rgba(30,144,255,.3);border-radius:1px;flex-shrink:0;align-self:stretch;"></div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(30,144,255,.07);border:1px solid rgba(30,144,255,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(30,144,255,.14)'" onmouseleave="this.style.background='rgba(30,144,255,.07)'" data-week-idx="4" onclick="markWeekDone(4,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#7EC8FF;line-height:1;">W5</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Concept generation · OptimumLap · BOM</div><span style="display:none;" id="wkb5" class="wkBadge" data-wk="4" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(30,144,255,.07);border:1px solid rgba(30,144,255,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(30,144,255,.14)'" onmouseleave="this.style.background='rgba(30,144,255,.07)'" data-week-idx="5" onclick="markWeekDone(5,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#7EC8FF;line-height:1;">W6</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Skill workshops · Welding · CFD · PCB</div><span style="display:none;" id="wkb6" class="wkBadge" data-wk="5" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(30,144,255,.07);border:1px solid rgba(30,144,255,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(30,144,255,.14)'" onmouseleave="this.style.background='rgba(30,144,255,.07)'" data-week-idx="6" onclick="markWeekDone(6,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#7EC8FF;line-height:1;">W7</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">PDR · Decision matrix · Risk register</div><span style="display:none;" id="wkb7" class="wkBadge" data-wk="6" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(30,144,255,.07);border:1px solid rgba(30,144,255,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(30,144,255,.14)'" onmouseleave="this.style.background='rgba(30,144,255,.07)'" data-week-idx="7" onclick="markWeekDone(7,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#7EC8FF;line-height:1;">W8</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Cost report · Sponsorship push · LaTeX</div><span style="display:none;" id="wkb8" class="wkBadge" data-wk="7" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <!-- divider -->
+        <div style="width:2px;background:rgba(0,200,150,.3);border-radius:1px;flex-shrink:0;align-self:stretch;"></div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(0,200,150,.06);border:1px solid rgba(0,200,150,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(0,200,150,.13)'" onmouseleave="this.style.background='rgba(0,200,150,.06)'" data-week-idx="8" onclick="markWeekDone(8,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#5FFFD7;line-height:1;">W9</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Detailed CAD · Full 3D models · GD&amp;T</div><span style="display:none;" id="wkb9" class="wkBadge" data-wk="8" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(0,200,150,.06);border:1px solid rgba(0,200,150,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(0,200,150,.13)'" onmouseleave="this.style.background='rgba(0,200,150,.06)'" data-week-idx="9" onclick="markWeekDone(9,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#5FFFD7;line-height:1;">W10</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">FEA validation · CFD full car · Integration</div><span style="display:none;" id="wkb10" class="wkBadge" data-wk="9" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(0,200,150,.06);border:1px solid rgba(0,200,150,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(0,200,150,.13)'" onmouseleave="this.style.background='rgba(0,200,150,.06)'" data-week-idx="10" onclick="markWeekDone(10,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#5FFFD7;line-height:1;">W11</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Design freeze · Mfg drawings · DDR</div><span style="display:none;" id="wkb11" class="wkBadge" data-wk="10" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(0,200,150,.06);border:1px solid rgba(0,200,150,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(0,200,150,.13)'" onmouseleave="this.style.background='rgba(0,200,150,.06)'" data-week-idx="11" onclick="markWeekDone(11,this)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#5FFFD7;line-height:1;">W12</div>
+          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Design report final · Sponsor confirm · Ready</div><span style="display:none;" id="wkb12" class="wkBadge" data-wk="11" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div style="position:absolute;bottom:0;left:0;right:0;z-index:10;display:flex;align-items:center;padding:clamp(5px,.9vh,9px) clamp(1.5rem,3vw,3.5rem);border-top:1px solid rgba(255,255,255,.05);background:rgba(3,8,15,.92);">
+    <div style="font-size:.58rem;color:#334155;font-style:italic;">📄 Source: Formula Student 12-Week Competition Readiness Roadmap · IIPE FS Team Internal Document</div>
+    <div style="margin-left:auto;font-size:.58rem;color:#FF6B00;font-weight:700;">Deliverables are non-negotiable. Slipping = not finishing on time.</div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<nav id="nav">
+  <div id="progressBar" style="position:absolute;top:0;left:0;right:0;height:26px;overflow:hidden;pointer-events:none;">
+    <!-- Track -->
+    <svg id="trackSvg" width="100%" height="26" style="position:absolute;top:0;left:0;" preserveAspectRatio="none">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="1.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- track rail -->
+      <line x1="0" y1="13" x2="100%" y2="13" stroke="rgba(255,107,0,.12)" stroke-width="3"/>
+      <!-- progress fill -->
+      <line id="trackFill" x1="0" y1="13" x2="0" y2="13" stroke="url(#tgrad)" stroke-width="3" filter="url(#glow)" stroke-linecap="round"/>
+      <defs>
+        <linearGradient id="tgrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FF6B00"/>
+          <stop offset="100%" stop-color="#FFD700"/>
+        </linearGradient>
+      </defs>
+      <!-- tick marks for each slide -->
+      <g id="trackTicks"></g>
+    </svg>
+    <!-- Race car emoji that moves along track -->
+    <div id="trackCar" style="position:absolute;top:50%;transform:translate(-50%,-50%);font-size:16px;transition:left .45s cubic-bezier(.4,0,.2,1);left:0%;filter:drop-shadow(0 0 5px rgba(255,107,0,.8));">🏎</div>
+  </div>
+  <button class="nbtn" id="pb">&#8592;</button>
+  <div id="dots" style="display:flex;gap:8px;align-items:center;"></div>
+  <span id="ctr" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#475569;min-width:52px;text-align:center;"></span>
+  <button class="nbtn" id="fsBtn" title="Fullscreen (F)" onclick="toggleFS()" style="font-size:.8rem;padding:5px 11px;">⛶</button>
+  <button class="nbtn" id="helpBtn" title="Shortcuts (?)" onclick="document.getElementById('kbHelp').style.display='flex'" style="font-size:.8rem;padding:5px 11px;font-weight:700;">?</button>
+  <button class="nbtn" id="nb">&#8594;</button>
+</nav>
+
+<!-- KEYBOARD HELP MODAL -->
+<div id="kbHelp" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(2,5,12,.92);backdrop-filter:blur(18px);align-items:center;justify-content:center;">
+  <div style="background:rgba(10,16,30,.98);border:1px solid rgba(255,107,0,.25);border-radius:18px;padding:28px 36px;min-width:320px;max-width:460px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FF6B00;margin-bottom:18px;text-align:center;">Keyboard Shortcuts</div>
+    <div style="display:flex;flex-direction:column;gap:9px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">Next slide</span><kbd style="background:rgba(255,107,0,.15);border:1px solid rgba(255,107,0,.3);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#FFB347;">→  Space  PageDown</kbd></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">Previous slide</span><kbd style="background:rgba(30,144,255,.12);border:1px solid rgba(30,144,255,.25);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#7EC8FF;">←  PageUp</kbd></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">First / Last</span><kbd style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#94a3b8;">Home  /  End</kbd></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">Fullscreen</span><kbd style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#94a3b8;">F</kbd></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">Close modals</span><kbd style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#94a3b8;">Esc</kbd></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">This help</span><kbd style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#94a3b8;">?</kbd></div>
+    </div>
+    <button onclick="document.getElementById('kbHelp').style.display='none'" style="margin-top:16px;width:100%;background:rgba(255,107,0,.15);border:1px solid rgba(255,107,0,.35);color:#FFB347;border-radius:9px;padding:9px;cursor:pointer;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;" onmouseenter="this.style.background='rgba(255,107,0,.28)'" onmouseleave="this.style.background='rgba(255,107,0,.15)'">Close  ·  Esc</button>
+  </div>
+</div>
+
+<!-- ════ SLIDE 8 — HOW TO PREPARE ════ -->
+<div class="slide" id="s8" style="background:#040912;overflow:hidden;position:absolute;inset:0;">
   <!-- BG layers -->
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 15% 50%,rgba(255,107,0,.09),transparent 60%),radial-gradient(ellipse 50% 40% at 88% 20%,rgba(30,144,255,.07),transparent 55%);z-index:0;pointer-events:none;"></div>
   <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,107,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,0,.03) 1px,transparent 1px);background-size:65px 65px;"></div>
@@ -1609,6 +1827,108 @@ button { touch-action:manipulation; }
   #pFill { border-radius:0; }
 }
 
+
+/* ═══ PULSING GLOW on interactive cards ═══ */
+@keyframes glowPulse{
+  0%,100%{box-shadow:0 0 0px rgba(255,107,0,0);}
+  50%{box-shadow:0 0 18px rgba(255,107,0,.5);}
+}
+.hnode:hover { animation:glowPulse 1.6s ease-in-out infinite; }
+.fc:hover .fcf { box-shadow:0 0 20px rgba(255,107,0,.2); }
+
+/* Race track bar height fix for nav */
+#nav { padding-top:30px !important; }
+@media(max-width:768px){ #nav { padding-top:28px !important; } }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDITORIUM MODE — Bigger fonts throughout for large-screen
+   projection. All info strips, stat bars, labels boosted.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── S1 TICKER BAR ── */
+.ti { font-size: clamp(.85rem, 1.3vw, 1.1rem) !important; letter-spacing:.12em !important; }
+.tkwrap { padding: 10px 0 !important; border-top-width:2px !important; }
+
+/* ── S1 HERO TAGS / BADGES ── */
+.stag  { font-size: clamp(.65rem, 1vw, .85rem) !important; padding: 5px 13px !important; }
+.badge { font-size: clamp(.68rem, 1.1vw, .88rem) !important; padding: 6px 18px !important; }
+.tline { font-size: clamp(.88rem, 1.4vw, 1.1rem) !important; }
+.llbl  { font-size: clamp(.65rem, 1vw, .82rem) !important; letter-spacing:.12em !important; }
+.ctabox { font-size: clamp(.78rem, 1.2vw, .95rem) !important; padding: 10px 16px !important; }
+
+/* ── S1 INFO CARDS (icards) ── */
+.ic-l  { font-size: clamp(.62rem, .95vw, .78rem) !important; }
+.ic-v  { font-size: clamp(.88rem, 1.4vw, 1.1rem) !important; }
+
+/* ── S2 BOTTOM COMPETITION STRIP ── */
+.cpf   { font-size: clamp(1.3rem, 2.2vw, 2rem) !important; }
+.cpn   { font-size: clamp(.78rem, 1.2vw, 1rem) !important; }
+.cpl   { font-size: clamp(.65rem, 1vw, .82rem) !important; }
+.cpb   { font-size: clamp(.6rem, .9vw, .76rem) !important; padding: 4px 10px !important; }
+.cp    { padding: clamp(10px,1.8vh,18px) clamp(12px,2vw,22px) !important; }
+
+/* ── S2 STAT BOXES ── */
+.sn    { font-size: clamp(2.2rem, 4vw, 3.8rem) !important; }
+.sd    { font-size: clamp(.72rem, 1.1vw, .9rem) !important; }
+
+/* ── S3 / S4 TOP BAND ── */
+.tb-eye  { font-size: clamp(.72rem, 1.1vw, .88rem) !important; letter-spacing:.18em !important; }
+.tb-sub  { font-size: clamp(.78rem, 1.2vw, .95rem) !important; }
+.tb-stats .ts-v { font-size: clamp(1.3rem, 2.8vw, 2.2rem) !important; }
+.tb-stats .ts-l { font-size: clamp(.62rem, .95vw, .78rem) !important; }
+
+/* ── S3 / S4 EVENT BODY LABELS ── */
+.vc-name   { font-size: clamp(1.1rem, 2.2vw, 1.9rem) !important; }
+.vc-sub    { font-size: clamp(.68rem, 1.05vw, .84rem) !important; }
+.chip      { font-size: clamp(.65rem, 1vw, .82rem) !important; padding: 5px 13px !important; }
+
+/* ── S8 HEADER + LABELS ── */
+#s8streak  { font-size: clamp(.75rem, 1.2vw, .96rem) !important; padding-bottom: 6px !important; }
+
+/* ── S9 ROLE NODE LABELS ── */
+.hnode [style*="font-size:.5rem"]  { font-size: clamp(.6rem, .92vw, .76rem) !important; }
+.hnode [style*="font-size:.45rem"] { font-size: clamp(.55rem, .85vw, .7rem) !important; }
+
+/* ── MODAL INNER CONTENT ── */
+#roleModalInner [style*="font-size:.62rem"],
+#roleModalInner [style*="font-size:clamp(.6rem"] {
+  font-size: clamp(.75rem, 1.15vw, .92rem) !important;
+  line-height: 1.7 !important;
+}
+#roleModalInner [style*="font-size:.52rem"],
+#roleModalInner [style*="font-size:.54rem"] {
+  font-size: clamp(.66rem, 1vw, .82rem) !important;
+}
+
+/* ── S10 CLOSING SLIDE ── */
+#s10 [style*="font-size:.63rem"] { font-size: clamp(.78rem, 1.2vw, .96rem) !important; }
+#s10 [style*="font-size:.52rem"] { font-size: clamp(.68rem, 1.05vw, .84rem) !important; }
+#s10 [style*="font-size:.53rem"] { font-size: clamp(.68rem, 1.05vw, .84rem) !important; }
+
+/* ── GLOBAL: any leftover tiny labels ── */
+[style*="font-size:.5rem"]  { font-size: clamp(.62rem, .95vw, .78rem) !important; }
+[style*="font-size:.48rem"] { font-size: clamp(.6rem, .92vw, .76rem) !important; }
+[style*="font-size:.45rem"] { font-size: clamp(.58rem, .88vw, .72rem) !important; }
+[style*="font-size:.4rem"]  { font-size: clamp(.56rem, .85vw, .7rem) !important; }
+[style*="font-size:.42rem"] { font-size: clamp(.56rem, .85vw, .7rem) !important; }
+[style*="font-size:.44rem"] { font-size: clamp(.57rem, .87vw, .71rem) !important; }
+[style*="font-size:.52rem"] { font-size: clamp(.66rem, 1vw, .82rem) !important; }
+[style*="font-size:.54rem"] { font-size: clamp(.68rem, 1.05vw, .84rem) !important; }
+[style*="font-size:.56rem"] { font-size: clamp(.7rem, 1.08vw, .86rem) !important; }
+[style*="font-size:.58rem"] { font-size: clamp(.72rem, 1.1vw, .88rem) !important; }
+[style*="font-size:.6rem"]  { font-size: clamp(.75rem, 1.15vw, .92rem) !important; }
+[style*="font-size:.62rem"] { font-size: clamp(.78rem, 1.2vw, .95rem) !important; }
+[style*="font-size:.63rem"] { font-size: clamp(.78rem, 1.2vw, .96rem) !important; }
+[style*="font-size:.64rem"] { font-size: clamp(.8rem, 1.22vw, .98rem) !important; }
+[style*="font-size:.65rem"] { font-size: clamp(.82rem, 1.25vw, 1rem) !important; }
+[style*="font-size:.68rem"] { font-size: clamp(.84rem, 1.28vw, 1.02rem) !important; }
+[style*="font-size:.7rem"]  { font-size: clamp(.88rem, 1.35vw, 1.06rem) !important; }
+[style*="font-size:.72rem"] { font-size: clamp(.9rem, 1.38vw, 1.08rem) !important; }
+[style*="font-size:.75rem"] { font-size: clamp(.92rem, 1.4vw, 1.1rem) !important; }
+[style*="font-size:.78rem"] { font-size: clamp(.95rem, 1.45vw, 1.14rem) !important; }
+[style*="font-size:.8rem"]  { font-size: clamp(.98rem, 1.5vw, 1.18rem) !important; }
+
 </style>
   <script>
   function tsk(el){
@@ -1629,182 +1949,6 @@ button { touch-action:manipulation; }
 </div>
 
 
-<div class="slide" id="s8" style="background:#03080f;overflow:hidden;position:absolute;inset:0;">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(255,107,0,.10),transparent 55%);z-index:0;pointer-events:none;"></div>
-  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;"></div>
-  <div class="stripe stripe-orange"></div><div class="scanline"></div>
-
-  <!-- HEADER -->
-  <div style="position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,107,0,.18);background:rgba(3,8,15,.9);backdrop-filter:blur(12px);padding:clamp(.7rem,1.5vh,1.1rem) clamp(1.5rem,3vw,3.5rem);">
-    <div class="rvu" style="animation-delay:.04s">
-      <p style="font-size:.57rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#FF6B00;margin-bottom:2px;">12-Week Holiday Training · IIPE Formula Student</p>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3.5vw,2.7rem);color:#f1f5f9;line-height:1;">From <span style="color:#FF6B00;">Zero</span> to <span style="color:#00C896;">Competition Ready</span></div>
-    </div>
-    <div class="rvu" style="animation-delay:.08s;display:flex;gap:12px;align-items:center;">
-      <div style="text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#FF6B00;">12</div><div style="font-size:.5rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;">Weeks</div></div>
-      <div style="width:1px;height:32px;background:rgba(255,255,255,.07);"></div>
-      <div style="text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#1E90FF;">3</div><div style="font-size:.5rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;">Phases</div></div>
-      <div style="width:1px;height:32px;background:rgba(255,255,255,.07);"></div>
-      <div style="text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#00C896;">7</div><div style="font-size:.5rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;">Sub-Teams</div></div>
-      <div style="width:1px;height:32px;background:rgba(255,255,255,.07);"></div>
-      <div style="text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);color:#D88AFF;">2+</div><div style="font-size:.5rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;">Sponsors</div></div>
-    </div>
-  </div>
-
-  <!-- BODY -->
-  <div style="position:absolute;top:clamp(70px,11vh,100px);left:0;right:0;bottom:clamp(42px,7vh,56px);z-index:5;display:flex;flex-direction:column;gap:9px;padding:clamp(.5rem,1vh,.9rem) clamp(1.5rem,3vw,3.5rem);">
-
-    <!-- PHASE TIMELINE BAR -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;flex-shrink:0;" class="rvu" style="animation-delay:.12s">
-      <!-- Phase 1 -->
-      <div style="background:linear-gradient(135deg,rgba(255,107,0,.14),rgba(255,107,0,.06));border:1px solid rgba(255,107,0,.35);border-radius:12px;padding:clamp(8px,1.3vh,14px) clamp(10px,1.8vw,16px);position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6B00,#FFB347);"></div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:#FF6B00;line-height:1;">Phase 1</div>
-          <div style="background:rgba(255,107,0,.2);border-radius:5px;padding:2px 8px;font-size:.52rem;font-weight:700;color:#FFB347;letter-spacing:.08em;text-transform:uppercase;">Weeks 1–4</div>
-        </div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,3vw,2.2rem);color:#f1f5f9;line-height:1;margin-bottom:6px;">LEARN 📚</div>
-        <div style="font-size:.58rem;color:#94a3b8;line-height:1.5;">No one touches CAD before understanding the rules, theory, and tools. Foundation weeks — the most important phase.</div>
-        <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px;">
-          <div style="font-size:.54rem;color:#FF6B00;">✓ Full software stack installed</div>
-          <div style="font-size:.54rem;color:#FF6B00;">✓ Rulebook read &amp; compliance mapped</div>
-          <div style="font-size:.54rem;color:#FF6B00;">✓ Concept Brief per subsystem</div>
-          <div style="font-size:.54rem;color:#FF6B00;">✓ Benchmarked top 3 global teams</div>
-        </div>
-      </div>
-      <!-- Phase 2 -->
-      <div style="background:linear-gradient(135deg,rgba(30,144,255,.12),rgba(30,144,255,.05));border:1px solid rgba(30,144,255,.3);border-radius:12px;padding:clamp(8px,1.3vh,14px) clamp(10px,1.8vw,16px);position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1E90FF,#7EC8FF);"></div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:#1E90FF;line-height:1;">Phase 2</div>
-          <div style="background:rgba(30,144,255,.18);border-radius:5px;padding:2px 8px;font-size:.52rem;font-weight:700;color:#7EC8FF;letter-spacing:.08em;text-transform:uppercase;">Weeks 5–8</div>
-        </div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,3vw,2.2rem);color:#f1f5f9;line-height:1;margin-bottom:6px;">DESIGN 🔧</div>
-        <div style="font-size:.58rem;color:#94a3b8;line-height:1.5;">Think before you make. Generate concepts, validate analytically, present PDR. No physical building yet — design on paper first.</div>
-        <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px;">
-          <div style="font-size:.54rem;color:#1E90FF;">✓ 2–3 design concepts per subsystem</div>
-          <div style="font-size:.54rem;color:#1E90FF;">✓ FEA + CFD simulations run</div>
-          <div style="font-size:.54rem;color:#1E90FF;">✓ Preliminary Design Review (PDR)</div>
-          <div style="font-size:.54rem;color:#1E90FF;">✓ Sponsor deck sent to 10+ companies</div>
-        </div>
-      </div>
-      <!-- Phase 3 -->
-      <div style="background:linear-gradient(135deg,rgba(0,200,150,.10),rgba(0,200,150,.04));border:1px solid rgba(0,200,150,.3);border-radius:12px;padding:clamp(8px,1.3vh,14px) clamp(10px,1.8vw,16px);position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00C896,#5FFFD7);"></div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:#00C896;line-height:1;">Phase 3</div>
-          <div style="background:rgba(0,200,150,.15);border-radius:5px;padding:2px 8px;font-size:.52rem;font-weight:700;color:#5FFFD7;letter-spacing:.08em;text-transform:uppercase;">Weeks 9–12</div>
-        </div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,3vw,2.2rem);color:#f1f5f9;line-height:1;margin-bottom:6px;">COMMIT 🏁</div>
-        <div style="font-size:.58rem;color:#94a3b8;line-height:1.5;">Design is approved. Build it in full CAD, validate every component, integrate subsystems, freeze the design. What is designed is what gets manufactured.</div>
-        <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px;">
-          <div style="font-size:.54rem;color:#00C896;">✓ Frozen design — zero placeholder geometry</div>
-          <div style="font-size:.54rem;color:#00C896;">✓ FEA convergence studies complete</div>
-          <div style="font-size:.54rem;color:#00C896;">✓ Design report draft submitted</div>
-          <div style="font-size:.54rem;color:#00C896;">✓ 2+ confirmed sponsors</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WEEK-BY-WEEK STRIP -->
-    <div style="background:rgba(8,14,24,.95);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:clamp(9px,1.4vh,13px) clamp(11px,1.8vw,16px);flex:1;" class="rvu" style="animation-delay:.2s">
-      <div style="font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FF6B00;margin-bottom:10px;">📅 Week-by-Week at a Glance</div>
-      <div style="display:flex;gap:5px;align-items:stretch;height:calc(100% - 28px);">
-        <!-- W1 -->
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);position:relative;overflow:hidden;cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(255,107,0,.14)'" onmouseleave="this.style.background='rgba(255,107,0,.07)'" data-week-idx="0" onclick="markWeekDone(0,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#FFB347;line-height:1;">W1<span class="wkb1" style="display:none;position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span></div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Team setup · Software install · FS intro</div>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(255,107,0,.14)'" onmouseleave="this.style.background='rgba(255,107,0,.07)'" data-week-idx="1" onclick="markWeekDone(1,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#FFB347;line-height:1;">W2</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Chassis + Suspension + CAD basics</div><span style="display:none;" id="wkb2" class="wkBadge" data-wk="1" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(255,107,0,.14)'" onmouseleave="this.style.background='rgba(255,107,0,.07)'" data-week-idx="2" onclick="markWeekDone(2,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#FFB347;line-height:1;">W3</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Powertrain + Aero + FEA/CFD intro</div><span style="display:none;" id="wkb3" class="wkBadge" data-wk="2" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(255,107,0,.14)'" onmouseleave="this.style.background='rgba(255,107,0,.07)'" data-week-idx="3" onclick="markWeekDone(3,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#FFB347;line-height:1;">W4</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Rulebook deep-dive · Benchmarking</div><span style="display:none;" id="wkb4" class="wkBadge" data-wk="3" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <!-- divider -->
-        <div style="width:2px;background:rgba(30,144,255,.3);border-radius:1px;flex-shrink:0;align-self:stretch;"></div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(30,144,255,.07);border:1px solid rgba(30,144,255,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(30,144,255,.14)'" onmouseleave="this.style.background='rgba(30,144,255,.07)'" data-week-idx="4" onclick="markWeekDone(4,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#7EC8FF;line-height:1;">W5</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Concept generation · OptimumLap · BOM</div><span style="display:none;" id="wkb5" class="wkBadge" data-wk="4" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(30,144,255,.07);border:1px solid rgba(30,144,255,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(30,144,255,.14)'" onmouseleave="this.style.background='rgba(30,144,255,.07)'" data-week-idx="5" onclick="markWeekDone(5,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#7EC8FF;line-height:1;">W6</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Skill workshops · Welding · CFD · PCB</div><span style="display:none;" id="wkb6" class="wkBadge" data-wk="5" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(30,144,255,.07);border:1px solid rgba(30,144,255,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(30,144,255,.14)'" onmouseleave="this.style.background='rgba(30,144,255,.07)'" data-week-idx="6" onclick="markWeekDone(6,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#7EC8FF;line-height:1;">W7</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">PDR · Decision matrix · Risk register</div><span style="display:none;" id="wkb7" class="wkBadge" data-wk="6" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(30,144,255,.07);border:1px solid rgba(30,144,255,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(30,144,255,.14)'" onmouseleave="this.style.background='rgba(30,144,255,.07)'" data-week-idx="7" onclick="markWeekDone(7,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#7EC8FF;line-height:1;">W8</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Cost report · Sponsorship push · LaTeX</div><span style="display:none;" id="wkb8" class="wkBadge" data-wk="7" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <!-- divider -->
-        <div style="width:2px;background:rgba(0,200,150,.3);border-radius:1px;flex-shrink:0;align-self:stretch;"></div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(0,200,150,.06);border:1px solid rgba(0,200,150,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(0,200,150,.13)'" onmouseleave="this.style.background='rgba(0,200,150,.06)'" data-week-idx="8" onclick="markWeekDone(8,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#5FFFD7;line-height:1;">W9</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Detailed CAD · Full 3D models · GD&amp;T</div><span style="display:none;" id="wkb9" class="wkBadge" data-wk="8" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(0,200,150,.06);border:1px solid rgba(0,200,150,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(0,200,150,.13)'" onmouseleave="this.style.background='rgba(0,200,150,.06)'" data-week-idx="9" onclick="markWeekDone(9,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#5FFFD7;line-height:1;">W10</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">FEA validation · CFD full car · Integration</div><span style="display:none;" id="wkb10" class="wkBadge" data-wk="9" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(0,200,150,.06);border:1px solid rgba(0,200,150,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(0,200,150,.13)'" onmouseleave="this.style.background='rgba(0,200,150,.06)'" data-week-idx="10" onclick="markWeekDone(10,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#5FFFD7;line-height:1;">W11</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Design freeze · Mfg drawings · DDR</div><span style="display:none;" id="wkb11" class="wkBadge" data-wk="10" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-        <div style="flex:1;border-radius:8px;padding:6px 7px;background:rgba(0,200,150,.06);border:1px solid rgba(0,200,150,.2);cursor:pointer;transition:all .2s;" onmouseenter="this.style.background='rgba(0,200,150,.13)'" onmouseleave="this.style.background='rgba(0,200,150,.06)'" data-week-idx="11" onclick="markWeekDone(11,this)">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.7rem,1.4vw,1.1rem);color:#5FFFD7;line-height:1;">W12</div>
-          <div style="font-size:.5rem;color:#64748b;margin-top:3px;line-height:1.4;">Design report final · Sponsor confirm · Ready</div><span style="display:none;" id="wkb12" class="wkBadge" data-wk="11" style="position:absolute;top:3px;right:3px;font-size:.4rem;font-weight:700;color:#00C896;background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.3);border-radius:3px;padding:1px 4px;">✓</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- BOTTOM -->
-  <div style="position:absolute;bottom:0;left:0;right:0;z-index:10;display:flex;align-items:center;padding:clamp(5px,.9vh,9px) clamp(1.5rem,3vw,3.5rem);border-top:1px solid rgba(255,255,255,.05);background:rgba(3,8,15,.92);">
-    <div style="font-size:.58rem;color:#334155;font-style:italic;">📄 Source: Formula Student 12-Week Competition Readiness Roadmap · IIPE FS Team Internal Document</div>
-    <div style="margin-left:auto;font-size:.58rem;color:#FF6B00;font-weight:700;">Deliverables are non-negotiable. Slipping = not finishing on time.</div>
-  </div>
-</div>
-
-</div><!-- /deck -->
-
-<nav id="nav">
-  <div id="progressBar" style="position:absolute;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.06);">
-    <div id="pFill" style="height:100%;width:0%;background:linear-gradient(90deg,#FF6B00,#FFB347);border-radius:0 2px 2px 0;transition:width .35s ease;"></div>
-  </div>
-  <button class="nbtn" id="pb">&#8592;</button>
-  <div id="dots" style="display:flex;gap:8px;align-items:center;"></div>
-  <span id="ctr" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#475569;min-width:52px;text-align:center;"></span>
-  <button class="nbtn" id="fsBtn" title="Fullscreen (F)" onclick="toggleFS()" style="font-size:.8rem;padding:5px 11px;">⛶</button>
-  <button class="nbtn" id="helpBtn" title="Shortcuts (?)" onclick="document.getElementById('kbHelp').style.display='flex'" style="font-size:.8rem;padding:5px 11px;font-weight:700;">?</button>
-  <button class="nbtn" id="nb">&#8594;</button>
-</nav>
-
-<!-- KEYBOARD HELP MODAL -->
-<div id="kbHelp" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(2,5,12,.92);backdrop-filter:blur(18px);align-items:center;justify-content:center;">
-  <div style="background:rgba(10,16,30,.98);border:1px solid rgba(255,107,0,.25);border-radius:18px;padding:28px 36px;min-width:320px;max-width:460px;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FF6B00;margin-bottom:18px;text-align:center;">Keyboard Shortcuts</div>
-    <div style="display:flex;flex-direction:column;gap:9px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">Next slide</span><kbd style="background:rgba(255,107,0,.15);border:1px solid rgba(255,107,0,.3);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#FFB347;">→  Space  PageDown</kbd></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">Previous slide</span><kbd style="background:rgba(30,144,255,.12);border:1px solid rgba(30,144,255,.25);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#7EC8FF;">←  PageUp</kbd></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">First / Last</span><kbd style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#94a3b8;">Home  /  End</kbd></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">Fullscreen</span><kbd style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#94a3b8;">F</kbd></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">Close modals</span><kbd style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#94a3b8;">Esc</kbd></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,.03);border-radius:8px;"><span style="font-size:.64rem;color:#94a3b8;">This help</span><kbd style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;font-size:.58rem;color:#94a3b8;">?</kbd></div>
-    </div>
-    <button onclick="document.getElementById('kbHelp').style.display='none'" style="margin-top:16px;width:100%;background:rgba(255,107,0,.15);border:1px solid rgba(255,107,0,.35);color:#FFB347;border-radius:9px;padding:9px;cursor:pointer;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;" onmouseenter="this.style.background='rgba(255,107,0,.28)'" onmouseleave="this.style.background='rgba(255,107,0,.15)'">Close  ·  Esc</button>
-  </div>
-</div>
-
 <!-- ════ SLIDE 9 — TEAM HIERARCHY ════ -->
 <div class="slide" id="s9" style="background:#030810;overflow:hidden;position:absolute;inset:0;">
 
@@ -1822,7 +1966,7 @@ button { touch-action:manipulation; }
     </div>
     <div style="display:flex;gap:8px;flex-shrink:0;" class="rvu">
       <div style="background:rgba(255,107,0,.1);border:1px solid rgba(255,107,0,.3);border-radius:8px;padding:5px 12px;text-align:center;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#FF6B00;line-height:1;">20–28</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#FF6B00;line-height:1;" data-count="28">20–28</div>
         <div style="font-size:.48rem;color:#475569;text-transform:uppercase;letter-spacing:.09em;">Members</div>
       </div>
       <div style="background:rgba(30,144,255,.1);border:1px solid rgba(30,144,255,.25);border-radius:8px;padding:5px 12px;text-align:center;">
@@ -1833,6 +1977,22 @@ button { touch-action:manipulation; }
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#00C896;line-height:1;">1</div>
         <div style="font-size:.48rem;color:#475569;text-transform:uppercase;letter-spacing:.09em;">Deliverable / Member</div>
       </div>
+    </div>
+  </div>
+
+  
+  <!-- QUIZ BUTTON -->
+  <button onclick="showQuiz()" style="position:absolute;top:14px;right:clamp(1rem,2vw,2.5rem);z-index:20;background:linear-gradient(135deg,rgba(255,107,0,.2),rgba(255,150,0,.1));border:1.5px solid rgba(255,107,0,.5);color:#FFB347;border-radius:50px;padding:7px 18px;cursor:pointer;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:all .22s;display:flex;align-items:center;gap:6px;"
+    onmouseenter="this.style.background='linear-gradient(135deg,rgba(255,107,0,.4),rgba(255,150,0,.2))'"
+    onmouseleave="this.style.background='linear-gradient(135deg,rgba(255,107,0,.2),rgba(255,150,0,.1))'">
+    🎯 Which Role Suits Me?
+  </button>
+
+  <!-- QUIZ MODAL -->
+  <div id="quizModal" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:absolute;inset:0;z-index:200;background:rgba(2,5,12,.92);backdrop-filter:blur(20px);align-items:center;justify-content:center;">
+    <div style="background:rgba(10,16,30,.98);border:1px solid rgba(255,107,0,.3);border-radius:18px;padding:26px 28px;max-width:480px;width:90%;max-height:90vh;overflow-y:auto;position:relative;">
+      <button onclick="document.getElementById('quizModal').style.display='none'" style="position:absolute;top:12px;right:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#475569;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.6rem;">✕</button>
+      <div id="quizBox" style="min-height:200px;"></div>
     </div>
   </div>
 
@@ -1873,7 +2033,18 @@ button { touch-action:manipulation; }
         onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 6px 22px rgba(0,200,150,.28)'"
         onmouseleave="this.style.transform='';this.style.boxShadow=''">
         <div style="font-size:1rem;margin-bottom:2px;">⚙️</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.85rem,1.7vw,1.2rem);color:#00C896;line-height:1;">Operations Deputy</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.85rem,1.7vw,1.2rem);color:#00C896;line-height:1;">Operations Deputy
+      <!-- TECHNICAL HEAD -->
+      <div id="n-techhead" class="hnode" onclick="showRole('techhead')"
+        style="background:rgba(200,100,255,.1);border:1.5px solid rgba(200,100,255,.4);border-radius:12px;padding:8px 22px;cursor:pointer;transition:all .22s;text-align:center;min-width:160px;"
+        onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 6px 22px rgba(200,100,255,.3)'"
+        onmouseleave="this.style.transform='';this.style.boxShadow=''">
+        <div style="font-size:1rem;margin-bottom:2px;">⚙️</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(.85rem,1.7vw,1.2rem);color:#C864FF;line-height:1;">Technical Head</div>
+        <div style="font-size:.5rem;color:#64748b;margin-top:2px;">Leads engineering sub-teams · R&D strategy</div>
+        <div style="font-size:.45rem;color:#C864FF;opacity:.7;margin-top:3px;">click for details</div>
+      </div>
+    </div>
         <div style="font-size:.5rem;color:#64748b;margin-top:2px;">Workshop · Procurement · Logistics</div>
       </div>
     </div>
@@ -2028,6 +2199,10 @@ button { touch-action:manipulation; }
         resp:['Manages workshop schedule, tool inventory and booking','Coordinates all procurement — quotes, purchase orders, delivery tracking','Organises competition logistics: travel, accommodation, freight for the car','Tracks budget actuals vs planned spend','Manages relationships with college workshops and external fabricators'],
         owns:'Workshop access · All procurement · Competition logistics',
         tip:'Operations is the reason the right material arrives before the manufacturing slot, not after.'},
+    techhead:    {icon:'⚙️', title:'Technical Head', color:'#C864FF', bd:'rgba(200,100,255,.5)',
+        resp:['Oversees all engineering sub-teams and their weekly deliverables','Reviews CAD models, simulation results and technical documentation','Bridges the gap between Technical Director strategy and sub-team execution','Chairs weekly technical review meetings and design audits','Ensures design decisions meet Formula Student rules and weight/cost targets'],
+        owns:'Engineering sub-teams · Design reviews · Technical compliance',
+        tip:'The Technical Head is the person who holds the whole car together — technically and as a team.'},
       chassis:     {icon:'🏗', title:'Chassis & Structures', color:'#FFB347', bd:'rgba(255,107,0,.4)',
         resp:['Design space-frame or monocoque chassis per SAE Rulebook Section T','Full FEA analysis: torsional stiffness, impact, rollover','Produce all chassis manufacturing drawings with GD&T tolerances','Build chassis on a precision jig — zero geometry deviation','Run DFMEA for all structural failure modes'],
         owns:'Chassis CAD · FEA report · Manufacturing drawings · Build jig',
@@ -2276,8 +2451,44 @@ function onEnter(i){if(i===1)animS2();}
 (function(){
   const c=document.getElementById('c1'),ctx=c.getContext('2d');
   function r(){c.width=innerWidth;c.height=innerHeight;}r();addEventListener('resize',r);
-  const p=Array.from({length:65},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.38,vy:(Math.random()-.5)*.38,r:Math.random()*1.7+.4,a:Math.random()*.22+.04}));
-  (function loop(){ctx.clearRect(0,0,c.width,c.height);p.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=c.width;if(p.x>c.width)p.x=0;if(p.y<0)p.y=c.height;if(p.y>c.height)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,107,0,${p.a})`;ctx.fill();});requestAnimationFrame(loop);})();
+  // Car silhouette path (simplified F1 side view)
+  function drawCar(ctx,x,y,scale,alpha,flip){
+    ctx.save(); ctx.globalAlpha=alpha;
+    ctx.translate(x,y); if(flip) ctx.scale(-1,1);
+    ctx.scale(scale,scale);
+    ctx.fillStyle='rgba(255,140,40,1)';
+    // body
+    ctx.beginPath(); ctx.roundRect(-18,-4,36,7,3); ctx.fill();
+    // cockpit
+    ctx.beginPath(); ctx.roundRect(-6,-9,14,6,3); ctx.fill();
+    // front wing
+    ctx.beginPath(); ctx.rect(14,-5,6,3); ctx.fill();
+    // rear wing
+    ctx.beginPath(); ctx.rect(-22,-7,4,5); ctx.fill();
+    // wheels
+    ctx.fillStyle='rgba(200,100,20,1)';
+    ctx.beginPath(); ctx.ellipse(-11,4,4,3,0,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(11,4,4,3,0,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+  const p=Array.from({length:18},()=>({
+    x:Math.random()*innerWidth, y:Math.random()*innerHeight,
+    vx:(Math.random()*.45+.12)*(Math.random()>.5?1:-1),
+    vy:(Math.random()-.5)*.12,
+    s:Math.random()*.6+.35, a:Math.random()*.14+.04,
+    flip:Math.random()>.5
+  }));
+  (function loop(){
+    ctx.clearRect(0,0,c.width,c.height);
+    p.forEach(function(car){
+      car.x+=car.vx; car.y+=car.vy;
+      if(car.x<-60) car.x=c.width+60;
+      if(car.x>c.width+60) car.x=-60;
+      if(car.y<0) car.y=c.height; if(car.y>c.height) car.y=0;
+      drawCar(ctx,car.x,car.y,car.s,car.a,car.flip);
+    });
+    requestAnimationFrame(loop);
+  })();
 })();
 
 /* SLIDE 1 TYPING */
@@ -2560,6 +2771,283 @@ window.addEventListener('resize', function(){
       });
     }).observe(s,{attributes:true,attributeFilter:['class']});
   });
+})();
+
+
+/* ═══ 4. RACE TRACK PROGRESS UPDATE ═══ */
+(function(){
+  function updateTrack(){
+    var total = allSlides.length;
+    var pct   = total > 1 ? cur / (total-1) : 0;
+    var car   = document.getElementById('trackCar');
+    var fill  = document.getElementById('trackFill');
+    var ticks = document.getElementById('trackTicks');
+    var svg   = document.getElementById('trackSvg');
+    if(!car || !fill || !svg) return;
+    var W = svg.clientWidth || window.innerWidth;
+    var x = Math.round(pct * W);
+    car.style.left  = x + 'px';
+    fill.setAttribute('x2', x);
+    // Draw ticks once
+    if(ticks && !ticks._done){
+      ticks._done = true;
+      for(var i=0;i<total;i++){
+        var tx = Math.round((i/(total-1))*W);
+        var t  = document.createElementNS('http://www.w3.org/2000/svg','line');
+        t.setAttribute('x1',tx); t.setAttribute('y1',8);
+        t.setAttribute('x2',tx); t.setAttribute('y2',18);
+        t.setAttribute('stroke','rgba(255,107,0,.25)');
+        t.setAttribute('stroke-width','1.5');
+        ticks.appendChild(t);
+      }
+    }
+  }
+  allSlides.forEach(function(s){
+    new MutationObserver(function(mts){
+      mts.forEach(function(m){ if(m.target.classList.contains('active')) updateTrack(); });
+    }).observe(s,{attributes:true,attributeFilter:['class']});
+  });
+  window.addEventListener('resize', updateTrack);
+  updateTrack();
+})();
+
+/* ═══ 5. AUTO-FLIP S2 CARDS ON ENTRY ═══ */
+(function(){
+  var s2done = false;
+  var origOnEnter = window.onEnter || function(){};
+  window.onEnterS2Extra = function(){
+    if(s2done) return; s2done = true;
+    var cards = document.querySelectorAll('#s2 .fc');
+    cards.forEach(function(card, i){
+      setTimeout(function(){
+        card.classList.add('flipped');
+        setTimeout(function(){ card.classList.remove('flipped'); }, 1100);
+      }, i * 280 + 400);
+    });
+  };
+  // Hook into S2 entry via MutationObserver
+  var s2el = document.getElementById('s2');
+  if(s2el){
+    new MutationObserver(function(mts){
+      mts.forEach(function(m){
+        if(m.target.classList.contains('active')) window.onEnterS2Extra();
+      });
+    }).observe(s2el,{attributes:true,attributeFilter:['class']});
+  }
+})();
+
+/* ═══ 6. COUNT-UP ANIMATION (S3, S4, S9 stat numbers) ═══ */
+function countUp(el, target, duration, suffix){
+  suffix = suffix || '';
+  var start = 0, step = target / (duration / 16);
+  var isFloat = (target % 1 !== 0);
+  var iv = setInterval(function(){
+    start += step;
+    if(start >= target){ start = target; clearInterval(iv); }
+    el.textContent = isFloat ? start.toFixed(1) + suffix : Math.floor(start) + suffix;
+  }, 16);
+}
+function triggerCountUps(slideEl){
+  slideEl.querySelectorAll('[data-count]').forEach(function(el){
+    var target   = parseFloat(el.getAttribute('data-count'));
+    var suffix   = el.getAttribute('data-suffix') || '';
+    var duration = parseInt(el.getAttribute('data-dur')) || 1400;
+    countUp(el, target, duration, suffix);
+  });
+}
+
+/* ═══ 7. S8 STREAK / FLAME COUNTER ═══ */
+(function(){
+  function updateStreak(){
+    var done = [];
+    try{ done = JSON.parse(localStorage.getItem('iipe_fs_weeks')||'[]'); }catch(e){}
+    var ct   = done.length;
+    var el   = document.getElementById('s8streak');
+    if(!el) return;
+    if(ct === 0){
+      el.textContent = '🏁 Start marking weeks complete below';
+      el.style.color = '#475569';
+    } else if(ct < 4){
+      el.textContent = '🔥 You\'ve completed ' + ct + ' of 12 weeks — keep going!';
+      el.style.color = '#FFB347';
+    } else if(ct < 8){
+      el.textContent = '🔥🔥 ' + ct + '/12 weeks done — you\'re on track!';
+      el.style.color = '#FF8C00';
+    } else if(ct < 12){
+      el.textContent = '🔥🔥🔥 ' + ct + '/12 weeks — almost race-ready!';
+      el.style.color = '#FF6B00';
+    } else {
+      el.textContent = '🏆 All 12 weeks complete — you\'re race ready!';
+      el.style.color = '#00C896';
+    }
+  }
+  // Call on every markWeekDone
+  var origMWD = window.markWeekDone;
+  window.markWeekDone = function(idx, card){
+    if(origMWD) origMWD(idx, card);
+    updateStreak();
+  };
+  updateStreak();
+  // Trigger on S8 entry
+  var s8el = document.getElementById('s8');
+  if(s8el){
+    new MutationObserver(function(mts){
+      mts.forEach(function(m){ if(m.target.classList.contains('active')) updateStreak(); });
+    }).observe(s8el,{attributes:true,attributeFilter:['class']});
+  }
+})();
+
+/* ═══ 8. WHICH ROLE SUITS ME? QUIZ ═══ */
+(function(){
+  var QUIZ = [
+    { q:'When a car problem appears, your instinct is to…',
+      opts:[
+        {t:'Sketch a structural fix',           roles:['chassis','suspension']},
+        {t:'Run a simulation',                   roles:['aero','powertrain']},
+        {t:'Write code or wire it up',           roles:['electronics']},
+        {t:'Write a document or make a plan',    roles:['docs','sponsorship','marketing']},
+      ]},
+    { q:'In a group project, you naturally become…',
+      opts:[
+        {t:'The builder',          roles:['chassis','powertrain']},
+        {t:'The analyst',          roles:['aero','suspension']},
+        {t:'The communicator',     roles:['marketing','sponsorship']},
+        {t:'The coordinator',      roles:['integration','safety','captain']},
+      ]},
+    { q:'Your ideal Saturday is…',
+      opts:[
+        {t:'Fabricating something in a workshop', roles:['chassis','powertrain','suspension']},
+        {t:'Running simulations on a laptop',     roles:['aero','electronics']},
+        {t:'Pitching to or meeting companies',    roles:['sponsorship','marketing']},
+        {t:'Organising logistics for an event',   roles:['opsdir','safety','integration']},
+      ]},
+    { q:'Which outcome excites you most?',
+      opts:[
+        {t:'Fastest car on track',        roles:['powertrain','suspension','aero']},
+        {t:'Perfect electronics/data',    roles:['electronics']},
+        {t:'Big sponsorship deal signed', roles:['sponsorship','techdir','captain']},
+        {t:'Flawless design report score',roles:['docs','chassis']},
+      ]},
+  ];
+  var scores = {};
+  var qIdx   = 0;
+
+  function showQuiz(){
+    scores = {}; qIdx = 0;
+    var m = document.getElementById('quizModal');
+    if(m) m.style.display='flex';
+    renderQ();
+  }
+  window.showQuiz = showQuiz;
+
+  function renderQ(){
+    var box = document.getElementById('quizBox');
+    if(!box) return;
+    var q = QUIZ[qIdx];
+    var prog = Math.round(((qIdx)/QUIZ.length)*100);
+    box.innerHTML =
+      '<div style="font-size:.52rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FF6B00;margin-bottom:10px;">Question '+(qIdx+1)+' of '+QUIZ.length+'</div>'
+      +'<div style="width:100%;height:4px;background:rgba(255,255,255,.07);border-radius:2px;margin-bottom:16px;"><div style="width:'+prog+'%;height:100%;background:linear-gradient(90deg,#FF6B00,#FFD700);border-radius:2px;transition:width .4s;"></div></div>'
+      +'<div style="font-size:clamp(.75rem,1.5vw,.95rem);font-weight:700;color:#f1f5f9;margin-bottom:16px;line-height:1.5;">'+q.q+'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:9px;">'
+      + q.opts.map(function(o,i){
+          return '<button onclick="quizAnswer('+i+')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#94a3b8;border-radius:10px;padding:11px 16px;cursor:pointer;text-align:left;font-size:.7rem;transition:all .2s;" onmouseenter="this.style.background=\'rgba(255,107,0,.15)\';this.style.borderColor=\'rgba(255,107,0,.5)\';this.style.color=\'#FFB347\'" onmouseleave="this.style.background=\'rgba(255,255,255,.04)\';this.style.borderColor=\'rgba(255,255,255,.1)\';this.style.color=\'#94a3b8\'">'+o.t+'</button>';
+        }).join('')
+      +'</div>';
+  }
+
+  window.quizAnswer = function(optIdx){
+    var opts = QUIZ[qIdx].opts[optIdx].roles;
+    opts.forEach(function(r){ scores[r]=(scores[r]||0)+1; });
+    qIdx++;
+    if(qIdx < QUIZ.length){ renderQ(); return; }
+    // Show results
+    var sorted = Object.keys(scores).sort(function(a,b){return scores[b]-scores[a];});
+    var top2   = sorted.slice(0,2);
+    var box = document.getElementById('quizBox');
+    box.innerHTML =
+      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:1.8rem;color:#FF6B00;margin-bottom:4px;">Your Best Fit 🎯</div>'
+      +'<div style="font-size:.62rem;color:#64748b;margin-bottom:16px;">Based on your answers, these roles match you best:</div>'
+      + top2.map(function(r){
+          var roleCards = document.querySelectorAll('[onclick*="showRole(\''+r+'\')"]');
+          return '<div onclick="document.getElementById(\'quizModal\').style.display=\'none\';setTimeout(function(){showRole(\''+r+'\');},200)" style="background:rgba(255,107,0,.12);border:1.5px solid rgba(255,107,0,.45);border-radius:12px;padding:12px 16px;cursor:pointer;margin-bottom:9px;transition:all .2s;" onmouseenter="this.style.background=\'rgba(255,107,0,.25)\'" onmouseleave="this.style.background=\'rgba(255,107,0,.12)\'">'
+            +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:1.15rem;color:#FF6B00;">'+r.charAt(0).toUpperCase()+r.slice(1)+'</div>'
+            +'<div style="font-size:.6rem;color:#94a3b8;margin-top:2px;">Click to see full role details →</div>'
+            +'</div>';
+        }).join('')
+      +'<button onclick="window.showQuiz()" style="width:100%;margin-top:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#64748b;border-radius:8px;padding:8px;cursor:pointer;font-size:.62rem;">Retake Quiz</button>';
+
+    // Glow matching role cards on S9
+    document.querySelectorAll('.hnode').forEach(function(n){n.style.boxShadow='';});
+    top2.forEach(function(r){
+      var card = document.getElementById('n-'+r);
+      if(card){
+        card.style.boxShadow='0 0 22px rgba(255,107,0,.7)';
+        card.style.border='1.5px solid rgba(255,107,0,.9)';
+      }
+    });
+  };
+})();
+
+/* ═══ UPDATED onEnter — hook all new features ═══ */
+(function(){
+  var orig = window.onEnter || function(){};
+  window.onEnter = function(i){
+    orig(i);
+    // Trigger count-ups on slides with data-count
+    setTimeout(function(){
+      var sl = allSlides[i];
+      if(sl) triggerCountUps(sl);
+    }, 150);
+  };
+})();
+
+
+/* ═══ NAV IDLE — ghost after 2.5s, reappear on any interaction ═══ */
+(function(){
+  var nav    = document.getElementById('nav');
+  var applyB = document.getElementById('applyBtn');
+  var idleT  = null;
+
+  function showNav(){
+    if(!nav) return;
+    nav.classList.add('nav-active');
+    nav.style.opacity = '1';
+    // Also flash the Apply button briefly
+    if(applyB){ applyB.style.opacity='0.55'; }
+    clearTimeout(idleT);
+    idleT = setTimeout(hideNav, 2500);
+  }
+
+  function hideNav(){
+    if(!nav) return;
+    nav.classList.remove('nav-active');
+    nav.style.opacity = '0.08';
+    if(applyB && !applyB.matches(':hover')){ applyB.style.opacity='0.08'; }
+  }
+
+  // Show on mouse move, key press, touch
+  ['mousemove','mousedown','keydown','touchstart','scroll'].forEach(function(evt){
+    document.addEventListener(evt, showNav, {passive:true});
+  });
+
+  // Keep visible while mouse is directly over nav
+  nav.addEventListener('mouseenter', function(){ clearTimeout(idleT); nav.style.opacity='1'; });
+  nav.addEventListener('mouseleave', function(){
+    idleT = setTimeout(hideNav, 2500);
+  });
+
+  // Show briefly on every slide change
+  allSlides.forEach(function(s){
+    new MutationObserver(function(mts){
+      mts.forEach(function(m){
+        if(m.target.classList.contains('active')) showNav();
+      });
+    }).observe(s,{attributes:true,attributeFilter:['class']});
+  });
+
+  // Initial state — show for 2.5s then hide
+  showNav();
 })();
 
 </script>
